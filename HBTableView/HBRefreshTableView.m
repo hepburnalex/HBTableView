@@ -85,6 +85,7 @@
 }
 
 - (void)endRefresh:(BOOL)isNoMoreData {
+    _isNoMoreData = isNoMoreData;
     if ([self.mj_header isKindOfClass:[MJRefreshNormalHeader class]]) {
         [self.mj_header endRefreshing];
     }

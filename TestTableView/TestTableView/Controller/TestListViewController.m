@@ -28,6 +28,9 @@
 }
 
 - (void)AddModelsToList {
+    if (self.page == 0) {
+        [self.dataList removeAllObjects];
+    }
     for (int i = 0; i < 10; i ++) {
         LNRTestListModel *model = [[LNRTestListModel alloc] init];
         model.name = [NSString stringWithFormat:@"测试测试d测试测试测试%d", i];
@@ -39,23 +42,20 @@
         model.desc = desc;
         [self.dataList addObject:model];
     }
+    [self loadSectionModels:@"LNRTestListCell" models:self.dataList section:0];
+    [self refreshView:(self.page >= 3)];
 }
 
 #pragma mark - HBBaseTableViewController
 
 - (void)reloadTable {
     self.page = 0;
-    [self.dataList removeAllObjects];
-    [self AddModelsToList];
-    [self loadSectionModels:@"LNRTestListCell" models:self.dataList section:0];
-    [self refreshView:NO];
+    [self performSelector:@selector(AddModelsToList) withObject:nil afterDelay:0.3];
 }
 
 - (void)loadMoreTable {
     self.page ++;
-    [self AddModelsToList];
-    [self loadSectionModels:@"LNRTestListCell" models:self.dataList section:0];
-    [self refreshView:(self.page >= 3)];
+    [self performSelector:@selector(AddModelsToList) withObject:nil afterDelay:0.3];
 }
 
 - (void)loadTableCell:(HBBaseTableViewCell *)cell {
